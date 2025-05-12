@@ -9,7 +9,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 $ npm ci
 
 # generate .env.development file and set your env params
-$ cp .example.env .env.develoment
+$ cp .example.env .env.development
 ```
 
 ## Development
