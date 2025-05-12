@@ -8,8 +8,8 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 # deps install
 $ npm ci
 
-# generate .env.development file and set your OPENAI_API_KEY
-$ echo 'OPENAI_API_KEY=' > .env.development
+# generate .env.development file and set your env params
+$ cp .example.env .env.develoment
 ```
 
 ## Development
