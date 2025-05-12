@@ -3,9 +3,10 @@
 import { useChat } from "@ai-sdk/react";
  
 export default function Chat() {
-  const { messages, input, handleInputChange, handleSubmit, reload } =
-    useChat({api: "/api/mastra/chat"});
+  const { messages, input, handleInputChange, handleSubmit, addToolResult } =
+    useChat({ api: "/api/mastra/chat",maxSteps: 2 });
  
+    console.log(messages)
   return (
     <div className="max-w-2xl mx-auto p-6 bg-gray-50 min-h-screen">
       <div className="space-y-4 mb-6">
@@ -21,7 +22,44 @@ export default function Chat() {
             <div className="font-semibold mb-1 text-sm text-gray-600">
               {message.role === "user" ? "You" : "Agent"}
             </div>
-            <div className="text-gray-800 whitespace-pre-wrap">{message.content}</div>
+            {message.parts?.map((part, index) => {
+              switch (part.type) {
+                case 'text':
+                  return <div className="mt-4">{part.text}</div>;
+
+                case "tool-invocation": {
+                  if (part.toolInvocation.toolName === 'confirm') {
+                    return (
+                      <div key={`toolCallId-${part.toolInvocation.toolCallId}`}>
+                        <span>{part.toolInvocation.args.message}</span>
+                        {part.toolInvocation.state === 'call' &&
+                          <div className="mt-4 flex justify-end">
+                            <button
+                              key={index}
+                              className="bg-green-600 py-2 px-4 rounded-sm cursor-pointer text-white bold"
+                              onClick={() => addToolResult({
+                                toolCallId: part.toolInvocation.toolCallId,
+                                result: 'Yes, confirmed.'
+                              })}
+                            >承認</button>
+                            <button
+                              key={index}
+                              className="bg-orange-600 py-2 px-4 rounded-sm cursor-pointer text-white bold ml-4"
+                              onClick={() => addToolResult({
+                                toolCallId: part.toolInvocation.toolCallId,
+                                result: 'No, denied.'
+                              })}
+                            >拒否</button>
+                          </div>
+                        }
+                        
+                      </div>
+                    );
+                  }
+                }
+                default: return null;
+              }
+            })}
           </div>
         ))}
       </div>
