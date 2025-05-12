@@ -58,7 +58,7 @@ const updateJiraIssue = createTool({
     console.log('updateJiraIssue tool called');
     const encodedCredentials = Buffer.from(`${process.env.JIRA_EMAIL}:${process.env.JIRA_API_TOKEN}`).toString('base64');
 
-    const url = new URL(`https://dev-findy-team-enterprise.atlassian.net/rest/api/2/issue/${issueId}`);
+    const url = new URL(`${process.env.JIRA_API_ENDPOINT}/rest/api/2/issue/${issueId}`);
 
     const res = await fetch(url, {
       method: 'PUT',
