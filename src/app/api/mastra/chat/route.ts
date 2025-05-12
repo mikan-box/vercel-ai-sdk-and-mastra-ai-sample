@@ -45,7 +45,6 @@ const updateJiraIssue = createTool({
   description: `
     IRAのイシューを更新する。更新処理を実行する場合、以下の手順を踏むこと
     - issueIdと具体的な変更指示が無い場合は実行せずにユーザに問い合わせてください。
-    - 事前に必ず 'checker' ツールを用いて引数が正しいかチェックしてください。validの場合は再度ユーザーに確認を促してください。successの場合はconfirmツールを実行してください。
     - 最終確認としてこのツールを使う前に必ずconfirmツールを使用して確認してから実行してください。
   `,
   inputSchema: z.object({
